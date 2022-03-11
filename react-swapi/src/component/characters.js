@@ -16,13 +16,11 @@ export default class Characters extends React.Component {
 
   handleSubmit = event => {
       event.preventDefault();
-
-      const user = {
-          name: this.state.name
-      };
-      axios.get(`https://swapi.dev/api/people/?search=Skywalker`)
+      
+      const params = new URLSearchParams([['search', this.state.name]]);
+      
+      axios.get(`https://swapi.dev/api/people/`, { params })
       .then(res => {
-          console.log(res.data.results);
         const characters = res.data.results;
         this.setState({ characters });
       })
