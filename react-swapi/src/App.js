@@ -2,7 +2,7 @@ import Characters from './component/characters.js';
 
 function App() {
   return (
-    <div ClassName="App">
+    <div className="App">
       <Characters/>
     </div>
   )

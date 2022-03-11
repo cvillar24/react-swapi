@@ -3,28 +3,52 @@ import axios from 'axios';
 
 export default class Characters extends React.Component {
   state = {
-    persons: []
+    characters: [],
+    name: '',
+    params: {}
   }
 
-  componentDidMount() {
-    axios.get(`https://swapi.dev/api/people/?search=Skywalker`)
+  handleChange = event => {
+      this.setState({
+          name: event.target.value
+      });
+  }
+
+  handleSubmit = event => {
+      event.preventDefault();
+
+      const user = {
+          name: this.state.name
+      };
+      axios.get(`https://swapi.dev/api/people/?search=Skywalker`)
       .then(res => {
           console.log(res.data.results);
-        const persons = res.data.results;
-        this.setState({ persons });
+        const characters = res.data.results;
+        this.setState({ characters });
       })
   }
 
+
   render() {
     return (
-      <ul>
-        {
-          this.state.persons
-            .map(person =>
-              <li key={person.name}>{person.name}</li>
-            )
-        }
-      </ul>
+        <div>
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    Character:
+            <input type="text" name="name" onChange={this.handleChange} />
+                </label>
+                <button type="submit">Search</button>
+            </form>
+        
+            <ul>
+            {
+            this.state.characters
+                .map(character =>
+                <li key={character.name}>{character.name}</li>
+                )
+            }
+            </ul>
+      </div>
     )
   }
 }
